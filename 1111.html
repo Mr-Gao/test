@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--实现省市区三级联动-->
+<!--省-->
+<select name="" id="pro"></select>
+<!--市-->
+<select name="" id="city"></select>
+<!--区-->
+<select name="" id="dis"></select>
+
+<script src="../jquery-1.11.1.min.js"></script>
+<script src="pro.js"></script>
+<script src="city.js"></script>
+<script src="dis.js"></script>
+<script>
+
+    $(function () {
+
+//        首先我们要加载省的数据
+        var str_pro = '';
+        for(var i = 0; i < pro.length; i++){
+            str_pro += '<option value="' + pro[i].ProID + '">' + pro[i].name + '</option>';
+        }
+        $('#pro').html(str_pro);
+
+
+        $('#pro').on('change',function () {
+            // 通过value拿到的值都是字符串
+            var id = $(this).val() - 0;
+            var str_city = '';
+            for(var j = 0; j < city.length; j++){
+                if(city[j].ProID === id){
+                    str_city += '<option value="' + city[j].CityID + '">' + city[j].name + '</option>';
+                }
+            }
+            $('#city').html(str_city);
+
+//            triggerHandler 触发一下事件  不会触发浏览器默认事件  不会进行冒泡
+//            trigger
+            $('#city').triggerHandler('change');
+        }).triggerHandler('change');
+
+        $('#city').on('change',function () {
+            var id = $(this).val() - 0;
+            var str_dis = '';
+            for(var k = 0; k < dis.length; k++){
+                if(dis[k].CityID === id){
+                    str_dis += '<option value="' + dis[k].Id + '">' + dis[k].DisName + '</option>';
+                }
+            }
+            $('#dis').html(str_dis);
+
+        }).triggerHandler('change');
+    })
+
+</script>
+</body>
+</html>
